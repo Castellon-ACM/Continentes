@@ -6,7 +6,6 @@ import { Country, CountryService } from '../api';
 import ContinentsList from '../components/ContinentsList';
 import { RootStackParamList } from '../App';
 
-
 type ContinentsScreenNavigationProp = StackNavigationProp<RootStackParamList, 'ContinentsScreen'>;
 
 const ContinentsScreen = () => {

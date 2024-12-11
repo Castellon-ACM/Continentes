@@ -1,29 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, Text, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native';
-import { RouteProp, useNavigation } from '@react-navigation/native';
+import { FlatList, Text, StyleSheet, SafeAreaView } from 'react-native';
+import { RouteProp } from '@react-navigation/native'; 
 import { RootStackParamList } from '../App';
-import { StackNavigationProp } from '@react-navigation/stack';
 import { CountryService } from '../api';
 import { SvgUri } from 'react-native-svg';
 
+
 type CountriesScreenRouteProp = RouteProp<RootStackParamList, 'CountriesScreen'>;
 
-type NavigationProp = StackNavigationProp<RootStackParamList, 'CountriesScreen'>;
-
 const CountriesScreen = ({ route }: { route: CountriesScreenRouteProp }) => {
-  const { continent } = route.params; 
-  const [countries, setCountries] = useState<any[]>([]);  
-  const [loading, setLoading] = useState(true); 
-  const navigation = useNavigation<NavigationProp>();
+  const { continent } = route.params || {};
+  const [countries, setCountries] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  // Función para obtener los países por continente
   const fetchCountriesByContinent = async () => {
     try {
-      const countriesData = await CountryService.fetchCountries(); 
-      const filteredCountries = countriesData.filter(
-        (country) => country.region === continent 
-      );
+
+      // Este es solo un ejemplo:
+      const countriesData = await CountryService.fetchCountries();
+      const filteredCountries = countriesData.filter(country => country.region === continent);
       setCountries(filteredCountries);
+      console.log('Countries:', filteredCountries);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching countries:', error);
@@ -37,17 +34,6 @@ const CountriesScreen = ({ route }: { route: CountriesScreenRouteProp }) => {
     }
   }, [continent]);
 
-  const handleCountrySelect = (country: {
-    name: string;
-    capital: string;
-    population: number;
-    region: string;
-    subregion: string;
-    latlng: [number, number];
-  }) => {
-    navigation.navigate('CountryMap', { country });
-  };
-
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Countries in {continent}</Text>
@@ -56,29 +42,26 @@ const CountriesScreen = ({ route }: { route: CountriesScreenRouteProp }) => {
         <Text>Loading...</Text>
       ) : (
         <FlatList
-          data={countries}
-          keyExtractor={(item) => item.name}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              style={styles.countryItem}
-              onPress={() => handleCountrySelect(item)} 
-            >
-              <Text>{item.name}</Text>
-              <Text>Capital: {item.capital || 'Unknown'}</Text>
-              <Text>
-                Languages:{' '}
-                {Array.isArray(item.languages)
-                  ? item.languages.join(', ')
-                  : 'No languages available'}
-              </Text>
-              {item.flags ? (
-                <SvgUri uri={item.flags} width={100} height={60} />
-              ) : (
-                <Text>No flag available</Text>
-              )}
-            </TouchableOpacity>
-          )}
-        />
+        data={countries}
+        keyExtractor={(item) => item.name}
+        renderItem={({ item }) => (
+          <SafeAreaView style={styles.countryItem}>
+            <Text>{item.name}</Text>
+            <Text>Capital: {item.capital || 'Unknown'}</Text>
+            <Text>Languages: {Array.isArray(item.languages) ? item.languages.join(', ') : 'No languages available'}</Text>
+            {item.flags ? (
+              <SvgUri
+                uri={item.flags} // URL del SVG
+                width={100}
+                height={60}
+              />
+            ) : (
+              <Text>No flag available</Text>
+            )}
+          </SafeAreaView>
+        )}
+      />
+
       )}
     </SafeAreaView>
   );
@@ -104,11 +87,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   flagImage: {
-    width: 100,
+    width: 100, 
     height: 60,
     marginTop: 10,
-    backgroundColor: '#ccc',
+    backgroundColor: '#ccc', 
   },
 });
+
 
 export default CountriesScreen;

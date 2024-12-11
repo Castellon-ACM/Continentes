@@ -6,21 +6,11 @@ import ContinentsScreen from './screens/ContinentsScreen';
 import CountriesScreen from './screens/CountriesScreen';
 import { ThemeProvider, useTheme } from './ThemeContext';
 import GoToHomeButton from './components/GoToHomeButton';
-import CountryMap from './screens/CountryMap';
 
 
 export type RootStackParamList = {
   ContinentsScreen: undefined;
   CountriesScreen: { continent: string };
-  CountryMap: { country: { 
-    name: string; 
-    capital: string; 
-    population: number; 
-    region: string; 
-    subregion: string; 
-    latlng: [number, number]; 
-  }};
-  
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -40,7 +30,6 @@ const App = () => {
         <Stack.Navigator initialRouteName="ContinentsScreen">
           <Stack.Screen name="ContinentsScreen" component={ContinentsScreen} />
           <Stack.Screen name="CountriesScreen" component={CountriesScreen} />
-          <Stack.Screen name="CountryMap" component={CountryMap} />
         </Stack.Navigator>
         <GoToHomeButton />
       </NavigationContainer>
