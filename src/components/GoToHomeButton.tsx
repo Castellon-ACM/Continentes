@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../App';
 
+
 const GoToHomeButton = () => {
   type ContinentsScreenNavigationProp = StackNavigationProp<RootStackParamList, 'ContinentsScreen'>;
 

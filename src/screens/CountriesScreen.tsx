@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, Text, StyleSheet, SafeAreaView } from 'react-native';
 import { RouteProp } from '@react-navigation/native'; 
-import { RootStackParamList } from '../App';
 import { CountryService } from '../api';
 import { SvgUri } from 'react-native-svg';
+import { RootStackParamList } from '../App';
 
 
 type CountriesScreenRouteProp = RouteProp<RootStackParamList, 'CountriesScreen'>;
