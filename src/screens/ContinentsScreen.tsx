@@ -1,70 +1,66 @@
-import React, { useEffect, useState } from 'react';
-import { SafeAreaView, Text, StyleSheet, FlatList } from 'react-native';
-import { useNavigation } from '@react-navigation/native'; 
-import { StackNavigationProp } from '@react-navigation/stack';
-import { Country, CountryService } from '../api';
-import ContinentsList from '../components/ContinentsList';
-import { RootStackParamList } from '../App';
+import React from 'react';
+import { StyleSheet, FlatList, Text, View, Button } from 'react-native';
+import { Region } from '../config/responses/DatosCountries';
 
-type ContinentsScreenNavigationProp = StackNavigationProp<RootStackParamList, 'ContinentsScreen'>;
+const continents = Object.values(Region).map(region => ({ name: region }));
 
-const ContinentsScreen = () => {
-  const [continents, setContinents] = useState<string[]>([]);
-  const [countries, setCountries] = useState<Country[]>([]);
-  const [loading, setLoading] = useState<boolean>(true); 
+export default function ContinentsScreen({ navigation }: any) {
+    const navigateToCountries = (continentName: string) => {
+        navigation.navigate('Countries', { continentName });
+    };
 
-  const navigation = useNavigation<ContinentsScreenNavigationProp>();
+    const renderItem = ({ item }: { item: { name: string } }) => (
+        <View style={styles.listItem}>
+            <Button
+                title={item.name}
+                onPress={() => navigateToCountries(item.name)}
+            />
+        </View>
+    );
 
-  const fetchCountriesData = async () => {
-    try {
-      const countriesData = await CountryService.fetchCountries();
-      setCountries(countriesData);
-      
-      const continentList = CountryService.getContinents(countriesData);
-      setContinents(continentList);
-      
-      setLoading(false); 
-    } catch (error) {
-      console.error('Error fetching countries data:', error);
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchCountriesData();
-  }, []);
-
-  const handleContinentSelect = (continent: string) => {
-    navigation.navigate('CountriesScreen', { continent });
-  };
-
-  return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Select a Continent</Text>
-
-      {loading ? (
-        <Text>Loading...</Text>
-      ) : (
-        <>
-          <ContinentsList continents={continents} onContinentSelect={handleContinentSelect} />
-        </>
-      )}
-    </SafeAreaView>
-  );
-};
+    return (
+        <View style={styles.container}>
+            <Text style={styles.title}>Selecciona un continente</Text>
+            <FlatList
+                data={continents}
+                renderItem={renderItem}
+                keyExtractor={(item) => item.name}
+                contentContainerStyle={styles.list}
+            />
+        </View>
+    );
+}
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: '#f5f5f5',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginVertical: 20,
-  },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 20,
+        backgroundColor: '#eaeaea',
+    },
+    title: {
+        fontSize: 26,
+        fontWeight: '700',
+        marginBottom: 25,
+        color: '#2f2f2f',
+        textAlign: 'center',
+    },
+    list: {
+        width: '100%',
+        alignItems: 'center',
+        marginTop: 20,
+    },
+    listItem: {
+        width: '80%',
+        marginVertical: 12,
+        borderRadius: 15,
+        overflow: 'hidden',
+        backgroundColor: '#fff',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 5 },
+        shadowOpacity: 0.1,
+        shadowRadius: 5,
+        elevation: 5,
+    },
 });
-
-export default ContinentsScreen;
