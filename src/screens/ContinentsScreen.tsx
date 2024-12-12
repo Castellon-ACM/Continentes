@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, FlatList, Text, View, Button } from 'react-native';
+import { StyleSheet, FlatList, Text, View, TouchableOpacity, TextStyle, ViewStyle } from 'react-native';
 import { Region } from '../config/responses/DatosCountries';
 
 const continents = Object.values(Region).map(region => ({ name: region }));
@@ -10,12 +10,9 @@ export default function ContinentsScreen({ navigation }: any) {
     };
 
     const renderItem = ({ item }: { item: { name: string } }) => (
-        <View style={styles.listItem}>
-            <Button
-                title={item.name}
-                onPress={() => navigateToCountries(item.name)}
-            />
-        </View>
+        <TouchableOpacity style={styles.button} onPress={() => navigateToCountries(item.name)}>
+            <Text style={styles.buttonText}>{item.name}</Text>
+        </TouchableOpacity>
     );
 
     return (
@@ -47,20 +44,26 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     list: {
-        width: '100%',
         alignItems: 'center',
-        marginTop: 20,
     },
-    listItem: {
-        width: '80%',
+    button: {
+        width: 80,
+        height: 80,
+        borderRadius: 40,
+        backgroundColor: '#4CAF50',
+        justifyContent: 'center',
+        alignItems: 'center',
         marginVertical: 12,
-        borderRadius: 15,
-        overflow: 'hidden',
-        backgroundColor: '#fff',
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 5 },
         shadowOpacity: 0.1,
         shadowRadius: 5,
         elevation: 5,
-    },
+    } as ViewStyle,
+    buttonText: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: '600',
+        textAlign: 'center',
+    } as TextStyle,
 });

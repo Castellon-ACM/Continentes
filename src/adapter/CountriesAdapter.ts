@@ -9,10 +9,8 @@ export class CountriesAdapter {
         const http = new HttpAxios(Config.countriesAPI);
     
         try {
-          // Obtener datos de países
           const countriesList = await http.getCountries(continent);
     
-          // Manejo de errores
           if (countriesList instanceof HttpError) {
             console.error("Error fetching countries:");
             return [];

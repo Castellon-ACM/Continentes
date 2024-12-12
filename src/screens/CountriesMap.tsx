@@ -1,5 +1,5 @@
-import { Button, Image, StyleSheet, Text, View, ScrollView } from 'react-native';
 import React from 'react';
+import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { WebView } from 'react-native-webview';
 
 export default function CountriesMap({ route, navigation }: any) {
@@ -7,30 +7,27 @@ export default function CountriesMap({ route, navigation }: any) {
 
   if (!latlng || latlng.length < 2) {
     return (
-      <View>
-        <Text>No location available for this country.</Text>
+      <View style={styles.errorContainer}>
+        <Text style={styles.errorText}>No location available for this country.</Text>
       </View>
-
     );
   }
 
-  const lat = latlng[0];
-  const lng = latlng[1];
-
+  const [lat, lng] = latlng;
   const mapURL = `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lng}#map=5/${lat}/${lng}`;
 
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.flagContainer}>
+      <View style={styles.headerContainer}>
         <Image source={{ uri: flag }} style={styles.flag} />
+        <Text style={styles.countryName}>{name}</Text>
       </View>
-      <View style={styles.infoContainer}>
-        <Text style={styles.title}>{name}</Text>
-        <Text style={styles.infoText}>Continent: <Text style={styles.highlight}>{continent}</Text></Text>
-        <Text style={styles.infoText}>Capital: <Text style={styles.highlight}>{capital}</Text></Text>
-        <Text style={styles.infoText}>Language: <Text style={styles.highlight}>{language}</Text></Text>
-        <Text style={styles.infoText}>Population: <Text style={styles.highlight}>{population}</Text></Text>
-        <Text style={styles.coordinatesText}>Latitude: {lat}, Longitude: {lng}</Text>
+      <View style={styles.detailsContainer}>
+        <Text style={styles.detailText}>Continent: <Text style={styles.boldText}>{continent}</Text></Text>
+        <Text style={styles.detailText}>Capital: <Text style={styles.boldText}>{capital}</Text></Text>
+        <Text style={styles.detailText}>Language: <Text style={styles.boldText}>{language}</Text></Text>
+        <Text style={styles.detailText}>Population: <Text style={styles.boldText}>{population}</Text></Text>
+        <Text style={styles.coordinates}>Coordinates: {lat}, {lng}</Text>
       </View>
       <View style={styles.mapContainer}>
         <WebView
@@ -39,74 +36,91 @@ export default function CountriesMap({ route, navigation }: any) {
           style={styles.map}
         />
       </View>
-      
+      <TouchableOpacity style={styles.button} onPress={() => navigation.goBack()}>
+        <Text style={styles.buttonText}>Back to Countries</Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 15,
-    backgroundColor: '#eaeaea',
+    backgroundColor: '#f5f5f5',
   },
-  flagContainer: {
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 20,
+    backgroundColor: '#fff',
+  },
+  errorText: {
+    fontSize: 18,
+    color: '#d9534f',
+    textAlign: 'center',
+  },
+  headerContainer: {
+    alignItems: 'center',
+    padding: 20,
+    backgroundColor: '#3498db',
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
   },
   flag: {
-    width: 90,
-    height: 55,
-    borderRadius: 10,
+    width: 100,
+    height: 60,
+    borderRadius: 8,
     marginBottom: 12,
   },
-  infoContainer: {
-    marginBottom: 20,
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 14,
-    elevation: 6,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 5 },
-    shadowOpacity: 0.15,
-    shadowRadius: 8,
-  },
-  title: {
-    fontSize: 26,
+  countryName: {
+    fontSize: 28,
     fontWeight: '700',
-    textAlign: 'center',
-    color: '#2f2f2f',
-    marginBottom: 12,
+    color: '#fff',
   },
-  infoText: {
+  detailsContainer: {
+    padding: 20,
+    backgroundColor: '#fff',
+    margin: 15,
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 3,
+  },
+  detailText: {
     fontSize: 16,
-    color: '#555',
+    color: '#333',
     marginBottom: 8,
   },
-  highlight: {
-    fontWeight: 'bold',
-    color: '#3498db',
+  boldText: {
+    fontWeight: '600',
+    color: '#2c3e50',
   },
-  coordinatesText: {
-    fontSize: 16,
-    color: '#444',
-    marginTop: 8,
+  coordinates: {
+    fontSize: 14,
+    color: '#7f8c8d',
+    marginTop: 10,
   },
   mapContainer: {
-    marginVertical: 20,
-    borderRadius: 12,
+    marginHorizontal: 15,
+    borderRadius: 10,
     overflow: 'hidden',
-    elevation: 6,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 5 },
-    shadowOpacity: 0.15,
-    shadowRadius: 8,
+    height: 400,
   },
   map: {
-    width: '100%',
-    height: 420,
+    flex: 1,
   },
-  buttonContainer: {
-    marginTop: 12,
+  button: {
+    margin: 20,
+    padding: 15,
+    backgroundColor: '#e74c3c',
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });
-

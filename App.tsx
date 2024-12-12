@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import ContinentsScreen from './src/screens/ContinentsScreen';
 import CountriesScreen from './src/screens/CountriesScreen';
 import CountriesMap from './src/screens/CountriesMap';
+import BotonPaginaAnterior from './src/components/BotonPaginaAnterior';
 
 const Stack = createStackNavigator();
 
@@ -14,7 +15,15 @@ function App() {
       <Stack.Navigator initialRouteName="Continents">
         <Stack.Screen name="Continents" component={ContinentsScreen} />
         <Stack.Screen name="Countries" component={CountriesScreen} />
-        <Stack.Screen name="CountriesMap" component={CountriesMap} />
+        <Stack.Screen 
+          name="CountriesMap" 
+          component={CountriesMap} 
+          options={({ navigation }) => ({
+            headerLeft: () => (
+              <BotonPaginaAnterior onPress={() => navigation.goBack()} />
+            ),
+          })}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -33,3 +42,4 @@ const styles = StyleSheet.create({
 });
 
 export default App;
+

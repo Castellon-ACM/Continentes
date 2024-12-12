@@ -59,44 +59,75 @@ export default function CountriesScreen({ route, navigation }: any) {
 }
 
 const styles = StyleSheet.create({
-    container: {
+  container: {
       flex: 1,
       paddingTop: 25,
       backgroundColor: "#eaeaea",
       paddingHorizontal: 18,
-    },
-    title: {
+  },
+  title: {
       fontSize: 26,
       fontWeight: "700",
       textAlign: "center",
       color: "#2f2f2f",
       marginBottom: 12,
-    },
-    emptyContainer: {
+  },
+  emptyContainer: {
       flex: 1,
       justifyContent: "center",
       alignItems: "center",
       backgroundColor: "#fff",
-    },
-    emptyText: {
+  },
+  emptyText: {
       fontSize: 18,
       color: "#777",
       textAlign: "center",
       paddingHorizontal: 25,
-    },
-    listContainer: {
+  },
+  listContainer: {
       paddingBottom: 22,
-    },
-    loadingContainer: {
+  },
+  loadingContainer: {
       flex: 1,
       justifyContent: "center",
       alignItems: "center",
       backgroundColor: "#eaeaea",
-    },
-    loadingText: {
+  },
+  loadingText: {
       marginTop: 12,
       fontSize: 18,
       color: "#666",
-    },
-  });
-  
+  },
+  countryCard: {
+      flexDirection: "row",
+      alignItems: "center",
+      padding: 12,
+      marginVertical: 8,
+      backgroundColor: "#fff",
+      borderRadius: 8,
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
+      elevation: 3,
+  },
+  flag: {
+      width: 50,
+      height: 30,
+      marginRight: 12,
+      borderRadius: 4,
+  },
+  infoContainer: {
+      flex: 1,
+  },
+  countryName: {
+      fontSize: 18,
+      fontWeight: "600",
+      color: "#000",
+      marginBottom: 4,
+  },
+  countryDetail: {
+      fontSize: 14,
+      color: "#555",
+  },
+});
